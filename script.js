@@ -2,7 +2,7 @@ const container = document.querySelector(".container");
 const resizeButton = document.querySelector(".size");
 const resetButton = document.querySelector(".reset");
 
-// creating initial 16x16 grid
+// creating initial 16x16 grid on page load
 function createGrid() {
     for (let i = 0; i < 256; i++) {
         let square = document.createElement("div");
@@ -16,15 +16,26 @@ function createGrid() {
 }
 createGrid();
 
+// on "clear canvas" button click, resets the canvas to default
 resetButton.addEventListener("click", () => {
     for (const child of container.children) {
         child.classList.remove("hover");
     }
 });
 
+// on "change grid size" button click, prompts the user to input a new grid size
+function gridSize() {
+    let gridSize = prompt("Enter a desired grid size between 16 and 100: ");
+    while (gridSize < 16 || gridSize > 100) {
+        gridSize = prompt("Enter a valid grid size between 16 and 100: ");
+    }
+    return gridSize;
+}
 
-// Had to use an anonymous function to resize the grid on click, original resize function was being called
-// immediately on page load which I didn't want
+/*
+  Creating a new grid using value user inputted
+  (had to use an anonymous function to resize the grid on click, original resize function was being called immediately on page load which I didn't want)
+*/
 resizeButton.addEventListener("click", () => {
     let num = gridSize();
     const gridArea = 960 * 960; // grid is 960px wide and 960px tall
@@ -48,11 +59,3 @@ resizeButton.addEventListener("click", () => {
         });
     }
 });
-
-function gridSize() {
-    let gridSize = prompt("Enter a desired grid size between 16 and 100: ");
-    while (gridSize < 16 || gridSize > 100) {
-        gridSize = prompt("Enter a valid grid size between 16 and 100: ");
-    }
-    return gridSize;
-}
